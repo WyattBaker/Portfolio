@@ -1,2 +1,0 @@
-# Portfolio
-Technical writing documentation
