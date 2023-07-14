@@ -1,0 +1,664 @@
+# OpenAPI version
+openapi: 3.0.0
+security:
+  - awsAccountId: []
+  - awsAccessKeyId: []
+  - awsSecretAccessKey: []
+  - awsSessionToken: []
+info:
+  title: Amazon Web Services (AWS) GuardDuty Detector
+  version: '1.2'
+  description: |
+  
+    [Developer - Wyatt Baker](https://www.upwork.com/freelancers/~01664f4b110985c1e6)
+
+    The AWS GuardDuty API enables real-time threat detection, automated response, and custom integrations to enhance the security of your AWS accounts.
+    
+      > **_NOTE:_** This is a mock version of AWS GuardDuty as no real endpoint exists. This documentaiton is designed to show how detectors within GuardDuty work.
+    
+    ---
+
+    <h2>Overview of GuardDuty API</h2>
+
+    The AWS GuardDuty Detector API empowers you to secure AWS accounts against cyber threats and unauthorized activities. This tool allows you to manage and monitor security detectors within the GuardDuty service. These detectors function as virtual guards, continuously scanning your AWS environment to identify potential risks.
+
+    Through the GuardDuty Detector API, you can create new detectors, retrieve information about existing ones, update their settings, and remove detectors when they are no longer needed. Creating a detector involves customizing options such as enabling or disabling specific features, defining the frequency of threat update notifications, and employing labels for efficient detector organization.
+    
+    By using this API, software engineers can automate detector management, gaining valuable insights into potential security risks within their AWS resources. This tool ensures the ongoing security and protection of your AWS accounts against diverse online threats.
+    
+    For further information, please consult the official <a href="https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html"><b>AWS GuardDuty User Guide</b></a>.  
+    
+    <br>
+
+    ---
+    
+    <h2>Getting Started with GuardDuty API</h2>
+     
+    The first step in securing your AWS accounts involves creating a detector that actively monitors your AWS environment, identifying and flagging potential threats.
+    
+    <br>
+    
+    ---
+    
+    <h2>Before You Begin</h2>
+    
+    First, [**create an AWS account**](https://portal.aws.amazon.com/billing/signup#/start/email) or [**sign in**](https://aws.amazon.com/marketplace/management/signin).
+
+    The next step is to enable GuardDuty in your account.
+    
+    **To enable GuardDuty**
+    1. Open the GuardDuty console [**here**](https://console.aws.amazon.com/guardduty/)
+    2. Choose **Get Started**.
+    3. Choose **Enable GuardDuty**  .
+    
+    <br>
+    
+    ---
+    
+    <h2>Authentication</h2>
+    
+    To authenticate, create an <b>API key</b> that provides access to the operations available on the detector endpoints.   
+    
+    <br>
+    
+    ---
+    
+    <h2>Create a detector</h2>
+    
+    Creating a detector is the first step to secure your AWS accounts. In AWS GuardDuty, a detector actively monitors your environment, identifying suspicious activity and alerting you to potential threats.
+    
+    <br>
+    
+    ---
+    
+    <h2>All Detector Operations</h2>
+    
+    Once you have created at least one detector, you can perform four additional operations on the detector endpoints:
+    
+    <ul>
+    <dl>
+      <li><dt>Retrieve IDs</dt>
+      <dd>This operation allows users to obtain a list of the IDs associated with all existing detector resources.</dd></li>
+      <br>
+      <li><dt>Retrieve One</dt>
+      <dd>This operation retrieves a detector based on a specified <code>detectorId</code>.</dd></li>
+      <br>
+      <li><dt>Update</dt>
+      <dd>This operation enables users to modify the properties of a specific detector identified by its <code>detectorId</code>.</dd></li>
+      <br>
+      <li><dt>Delete</dt>
+      <dd>This operation allows users to delete a specific detector identified by its <code>detectorID</code>
+    </dl>
+    </ul>
+    <b>
+    <p>See request and response details for each of these endpoints below.</p>
+    
+servers:
+  - url: http://placeholder/1.2
+  
+# Labels for API endpoints
+tags: 
+  - name: Create
+    description: Create a detector.
+  - name: Retrieve IDs
+    description: Retrieve list of IDs of all existing GuardDuty detector resources.
+  - name: Retrieve One
+    description: Retrieves a GuardDuty detector specified by the detector ID.
+  - name: Update
+    description: Make changes to a detector.
+  - name: Delete
+    description: Remove a detector.
+
+# API paths and operations
+paths:
+  # /detector endpoint
+  /detector: 
+    # POST /detector
+    post:
+      tags: 
+       - Create
+      description: |
+         This operation enables the creation of a new detector resource. By using this endpoint, users can set up a detector instance to monitor and detect potential threats within their system.
+         
+         To create a detector, you need to initiate a <code>POST</code> request, providing neccesary information in the request body:
+         
+      requestBody:
+        required: true
+        description: |
+        
+          ### Request Body Parameters
+          ---
+    
+          <p><b>clientToken</b> (<i>optional</i>)</p>
+          The idempotency token when making a create request for a detector. It ensures that the request is uniquely identified and helps prevent accidental duplication. The <code>clientToken</code> is a string with a minimum length of 0 and a maximum length of 64.
+          
+          ---
+          
+          <p><b>enable</b> (<i>*required</i>)</p>
+          This specifies whether the detector should be enabled. It is a Boolean value, meaning it can be set to either <code>true</code> or <code>false</code>. When set to <code>true</code>, the detector is enabled, allowing it to actively monitor the AWS environment for potential threats. If set to <code>false</code>, the detector is disabled, suspending its monitoring capabilities.
+          
+          ---
+          
+          <p><b>features</b> (<i>optional</i>)</p>
+          This field allows for the configuration of features for the detector. It is an array of <code>DetectorFeatureConfiguration</code> objects, where each object represents a specific feature to be enabled or configured. Specifying the features body parameter allows you to customize the detector's functionality based on your specific security requirements.
+          
+          <ul>
+          <details><summary>Show child parameters</summary>
+      
+          ---
+      
+          <p><b>additionalConfiguration</b> (<i>optional</i>)</p>
+          <p>Allows for further customization of a detector resource by providing additional configuration details. It is an array of <code>DetectorAdditionalConfiguration</code> objects, where each object represents specific settings or parameters related to the resource.</p>
+          
+          <ul>
+          <details><summary>Show child parameters</summary>
+          
+          ---
+      
+          <p><b>name</b> (<i>optional</i>)</p>
+          <p>The name of the additional configuration for a feature in your GuardDuty detector. This value must be set to: <code>EKS_ADDON_MANAGEMENT</code>. This feature enables GuardDuty to analyze audit logs from Amazon Elastic Kubernetes Service (EKS).</p>
+      
+          ---
+          
+          <p><b>status</b> (<i>optional</i>)</p>
+          <p>Indicates the status of the additional configuration for a detector feature in GuardDuty. The status can be set to either <code>ENABLED</code> or <code>DISABLED</code>. When set to <code>ENABLED</code>, it means the additional configuration is active and operational. Conversely, setting it to <code>DISABLED</code> signifies that the additional configuration is inactive or turned off.  
+          </details>
+          </ul>
+          
+          ---
+          
+          <p><b>name</b> (<i>optional</i>)</p>
+          <p>Specifies the name of a particular feature within GuardDuty. The name parameter is a string value which allows you to specify the specific feature you want to configure for the detector.</p>
+          
+          <table>
+            <tr>
+              <th>Possible enum values:</th>
+            </tr>
+            <tr>
+              <td><p><code>S3_DATA_EVENTS</code></p>
+              This feature allows GuardDuty to monitor and analyze data events within Amazon S3, such as object-level API operations and access patterns. Enabling this feature helps detect potential security issues related to S3 data, including unauthorized access attempts or unusual data access patterns.
+              </td>
+            </tr>    
+            <tr>
+              <td><p><code>EKS_AUDIT_LOGS</code></p>
+              Enabling this feature enables GuardDuty to analyze audit logs from Amazon Elastic Kubernetes Service (EKS). By monitoring EKS audit logs, GuardDuty can identify suspicious activities, potential misconfigurations, or unauthorized access attempts within your EKS clusters.
+              </td>
+            </tr>
+            <tr>
+              <td><p><code>EBS_MALWARE_PROTECTION</code></p>
+              By enabling this feature, GuardDuty scans Amazon Elastic Block Store (EBS) volumes for known malware or malicious activities. It helps detect instances that might be running malicious software or are involved in data exfiltration attempts.
+              </td>
+            </tr>
+            <tr>
+              <td><p><code>RDS_LOGIN_EVENTS</code></p>
+              Enabling this feature allows GuardDuty to monitor login events within Amazon Relational Database Service (RDS). GuardDuty can identify unusual or unauthorized login activities, potential brute-force attacks, or suspicious database access patterns.
+              </td>
+            </tr>      
+            <tr>
+              <td><p><code>EKS_RUNTIME_MONITORING</code></p>
+              This feature enables GuardDuty to analyze runtime behavior and configurations of Amazon EKS clusters. By monitoring EKS runtime, GuardDuty helps identify potential security risks, such as insecure configurations, abnormal behavior, or suspicious activities within your EKS environment.
+              </td>
+            </tr>
+            <tr>
+              <td><p><code>LAMBDA_NETWORK_LOGS</code></p>
+              Enabling this feature allows GuardDuty to analyze network traffic logs for AWS Lambda functions. By monitoring Lambda network logs, GuardDuty can identify suspicious network activities, potential data exfiltration attempts, or communication with malicious IP addresses.
+              </td>
+            </tr>
+          </table>
+      
+      
+          ---
+      
+          <p><b>status</b> (<i>optional</i>)</p>
+          <p>Indicates the current status of a GuardDuty feature. The status can be set to <code>ENABLED</code> or <code>DISABLED</code>, representing whether the feature is currently active or inactive, respectively. The status parameter provides control over enabling or disabling specific features based on your requirements or security needs.</p>
+          
+          </ul>
+          
+          ---
+          
+          <p><b>findingPublishingFrequency</b> (<i>optional</i>)</p>
+          <p>Defines the frequency at which updated findings are exported from GuardDuty.</p>
+        
+          <table>
+            <tr>
+              <th>Possible enum values:</th>
+            </tr>
+            <tr>
+              <td><p><code>FIFTEEN_MINUTES</code></p>
+              This value indicates that findings are exported every fifteen minutes.
+              </td>
+            </tr>
+            <tr>
+              <td><p><code>ONE_HOUR</code></p>
+               Indicates that findings are exported once every hour.
+              </td>
+            </tr>
+            <tr>
+              <td><p><code>SIX_HOURS</code></p>
+               Findings are exported every six hours. 
+              </td>
+            </tr>
+          </table>
+          
+          ---
+          
+          <p><b>tags</b> (<i>optional</i>)</p>
+          <p>Allows for tags to be added to a detector resource in GuardDuty. It is a map of key-value pairs, where both the key and value are strings. The tags map can contain a maximum of 200 items.</p>
+      
+          <p>The key length should be between 1 and 128 characters. Additionally, the keys should match the specified pattern, which excludes keys starting with <code>aws:</code> and allows alphanumeric characters, along with the symbols <code>+-=._:/</code>.</p>
+      
+          <p>The values associated with the keys have a maximum length of 256 characters.</p>
+          
+          <br>
+        
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+
+      # Response from request to create detector
+      responses:
+        '200':
+          description: Detector created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetectorCreateResponse'
+        '400':
+          description: A bad request exception object.
+        '403':
+          description: Forbiden. Request contained valid data, but the server is refusing action due to the user not having neccesary permissions. (For this example API this represents success)
+        '500':
+          description: An internal server error exception object.
+        
+    # GET /detector
+    get:
+      tags:
+        - Retrieve IDs
+      description: This operation allows clients to obtain a list of the IDs associated with all existing detector resources. By accessing this endpoint, users can retrieve information about the available detectors within the system, facilitating further management and analysis.
+      parameters:
+        - in: query
+          name: MaxResults
+          description: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 50
+        - in: query
+          name: NextToken
+          description: Use this parameter when paginating results. Set the value of this parameter to <code>null</code> on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+            default: nul
+      # Response from request to get list of detector IDs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetectorListResponse'
+        '400':
+          description: A bad request exception object.
+        '500':
+          description: An internal server error exception object.
+
+  # /detector/{detectorID} endpoint              
+  /detector/{detectorId}:
+    # GET /detector/{detectorID}
+    get:
+      tags: 
+        - Retrieve One
+      description: This operation retrieves a detector based on a specified <code>detectorId</code>. By providing the unique identifier associated with a particular detector, users can access detailed information and data specific to that detector instance.
+      parameters:
+        - name: detectorId
+          in: path
+          description: The unique ID of the detector that you want to retrieve.
+          required: true
+          schema:
+            type: string  
+            minLength: 1
+            maxLength: 300
+      # Response from request to retrieve a detector
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOneResponse'
+        '404':
+          description: Detector not found
+          
+    # POST /detector/{detectorID}
+    post:
+      tags:
+        - Update
+      description: This operation enables users to update and modify the configuration of a specific detector identified by its <code>detectorId</code>. By providing the <code>detectorId</code> as a parameter in the request to this endpoint, users can make changes to various properties of the detector, such as alert thresholds, monitoring rules, or other relevant settings.
+      parameters:
+        - name: detectorId
+          in: path
+          description: ID of the detector
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetectorUpdateRequest'
+      # response from request to update configuration of a detector
+      responses:
+        '200':
+          description: Detector updated successfully.
+        '400':
+          description: A bad request exception object.
+        '500':
+          description: An internal server error exception object.
+    
+    # DELETE /detector/{detectorID}
+    delete:
+      tags: 
+        - Delete
+      description: This operation allows users to delete a specific detector identified by its <code>detectorId</code>. By making a request to this endpoint with the <code>detectorId</code> parameter, users can remove the specified detector from their system, permanently discontinuing its monitoring and threat detection capabilities.
+      parameters:
+        - name: detectorId
+          in: path
+          required: true
+          description: The unique ID of the detector that you want to delete.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 300
+      # Response from request to delete a detector
+      responses:
+        '200':
+          description: Detector deleted successfully.
+        '400':
+          description: A bad request exception object.
+        '500':
+          description: An internal server error exception object.
+
+components:
+  # Global apiKey authentication
+  securitySchemes:
+    awsAccountId:
+      type: apiKey
+      name: X-AWS-ACCOUNT-ID
+      in: header
+    awsAccessKeyId:
+      type: apiKey
+      name: X-AWS-ACCESS-KEY-ID
+      in: header
+    awsSecretAccessKey:
+      type: apiKey
+      name: X-AWS-SECRET-ACCESS-KEY
+      in: header
+    awsSessionToken:
+      type: apiKey
+      name: X-AWS-SESSION-TOKEN
+      in: header
+      
+  # Schemas 
+  schemas:
+    # CreateRequest schema
+    CreateRequest:
+      type: object
+      required:
+        - enable
+      description: Used in the request payload of the <code>POST</code> create detector operation, the <code>CreateRequest</code> schema contains the necessary data for creating a new resource.
+      properties:
+        clientToken:
+          type: string
+          minLength: 0
+          maxLength: 64
+          description: The idempotency token for the create request.
+          example: token1
+        dataSources:
+          deprecated: true
+          description: Deprecated parameter. Describes which data sources will be enabled for the detector.
+        enable:
+          type: boolean
+          description: A Boolean value that specifies whether the detector is to be enabled.
+          example: true
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetectorFeatureConfiguration'
+          description: A list of features that will be configured for the detector.
+        findingPublishingFrequency:
+          type: string
+          enum:
+            - FIFTEEN_MINUTES
+            - ONE_HOUR
+            - SIX_HOURS
+          description: A value that specifies how frequently updated findings are exported.
+          example: ONE_HOUR
+        tags:
+          type: object
+          maxProperties: 200
+          additionalProperties:
+            type: string
+            maxLength: 256
+            pattern: '^(?!aws:)[a-zA-Z+-=._:/]+$'
+            
+    # DetectorCreateResponse schema
+    DetectorCreateResponse:
+      type: object
+      description: Returned in the response of the <code>POST</code> create detector operation. The <code>DetectorCreateResponse</code> schema holds the data that confirms the successful creation of a new detector resource.
+      properties:
+        detectorId:
+          type: string
+          description: The unique ID of the created detector.
+        unprocessedDataSources:
+          $ref: '#/components/schemas/UnprocessedDataSources'
+  
+    # DetectorListResponse schema
+    DetectorListResponse:
+      type: object
+      description: Returned in the response of the <code>GET</code> retrieve list of detector IDs operation. The <code>DetectorListResponse</code> schema provides the structured data containing information about the available detector resources.
+      properties:
+        detectorIds:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 300
+          minItems: 0
+          maxItems: 50
+        nextToken:
+          type: string
+          description: The pagination parameter to be used on the next list operation to retrieve more items.
+
+    # GetOneResponse schema        
+    GetOneResponse:
+      type: object
+      description: This schema contains the data for a specific detector resource requested by its ID. It is returned in response to the <code>GET</code> operation for the retrieving a detector by its ID.
+      properties:
+        createdAt:
+          type: string
+          description: The timestamp of when the detector was created.
+        dataSources:
+          deprecated: true
+          description: Describes which data sources are enabled for the detector.
+        features:
+          type: array
+          description: Describes the features that have been enabled for the detector.
+          items:
+            type: object
+            properties:
+              additionalConfiguration:
+                type: array
+                description: Additional configuration for a resource.
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Name of the additional configuration.
+                      enum:
+                        - EKS_ADDON_MANAGEMENT
+                    status:
+                      type: string
+                      description: Status of the additional configuration.
+                      enum:
+                        - ENABLED
+                        - DISABLED
+                    updatedAt:
+                      type: string
+                      description: The timestamp at which the additional configuration was last updated. This is in UTC format.
+                      
+              name:
+                type: string
+                description: Indicates the name of the feature that can be enabled for the detector.
+                enum:
+                  - FLOW_LOGS
+                  - CLOUD_TRAIL
+                  - DNS_LOGS
+                  - S3_DATA_EVENTS
+                  - EKS_AUDIT_LOGS
+                  - EBS_MALWARE_PROTECTION
+                  - RDS_LOGIN_EVENTS
+                  - EKS_RUNTIME_MONITORING
+              status:
+                type: string
+                description: Indicates the status of the feature that is enabled for the detector.
+                enum:
+                  - ENABLED
+                  - DISABLED
+              updatedAt:
+                type: integer
+                description: The timestamp at which the feature object was updated.
+        
+        findingPublishingFrequency:
+          type: string
+          description: The publishing frequency of the finding.
+          enum:
+            - FIFTEEN_MINUTES
+            - ONE_HOUR
+            - SIX_HOURS
+        serviceRole:
+          type: string
+          description: The GuardDuty service role.
+        status:
+          type: string
+          description: The detector status.
+          minLength: 1
+          maxLength: 300
+          enum:
+            - ENABLED
+            - DISABLED
+        tags:
+          type: object
+          maxProperties: 200
+          description: The tags of the detector resource.
+          properties:
+            patternProperties:
+              type: string
+              minLength: 1
+              maxLength: 128
+        updatedAt:
+          type: string
+          description: The last-updated timestamp for the detector.
+  
+    # DetectorUpdateRequest schema      
+    DetectorUpdateRequest:
+      type: object
+      description: Used in the request payload of the <code>Update</code> operation. this schema defines the data structure for modifying a detector resource.
+      properties:
+        datasources:
+          type: object
+          deprecated: true
+          description: Describes which data sources will be updated.
+        enable:
+          type: boolean
+          description: Specifies whether the detector is enabled or not enabled.
+        features:
+          type: array
+          description: Provides the features that will be updated for the detector.
+          items:
+            $ref: '#/components/schemas/DetectorFeatureConfiguration'
+        findingPublishingFrequency:
+          type: string
+          description: An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
+          enum:
+            - FIFTEEN_MINUTES
+            - ONE_HOUR
+            - SIX_HOURS
+    
+    # DetectorFeatureConfiguration schema      
+    DetectorFeatureConfiguration:
+      type: object
+      description: Used within the <code>DetectorUpdateRequest</code> schema. This schema represents the configuration settings for a specific feature of a detector.
+      properties:
+        additionalConfiguration:
+          type: array
+          description: Information about the additional configuration for a feature in a GuardDuty account.
+          items:
+            properties:
+              name:
+                type: string
+                description: Name of the additional configuration.
+                example: EKS_ADDON_MANAGEMENT
+                enum:
+                  - EKS_ADDON_MANAGEMENT
+              status:
+                type: string
+                description: Status of the additional configuration.
+                example: ENABLED
+                enum:
+                  - ENABLED
+                  - DISABLED
+        name:
+          type: string
+          description: The name of the feature.
+          example: S3_DATA_EVENTS
+          enum:
+            - S3_DATA_EVENTS
+            - EKS_AUDIT_LOGS
+            - EBS_MALWARE_PROTECTION
+            - RDS_LOGIN_EVENTS
+            - EKS_RUNTIME_MONITORING
+            - LAMBDA_NETWORK_LOGS
+        status:
+          type: string
+          description: The status of the feature.
+          example: ENABLED
+          enum:
+            - ENABLED
+            - DISABLED
+    
+    # UnprocessedDataSources schema        
+    UnprocessedDataSources:
+      type: object
+      description: Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the first time.
+      properties:
+        malwareProtection:
+          type: object
+          description: An object that contains information on the status of all Malware Protection data sources.
+          properties:
+            scanEc2InstanceWithFindings:
+              type: object
+              description: Describes the configuration of Malware Protection for EC2 instances with findings.
+              properties:
+                ebsVolumes:
+                  type: object
+                  description: Describes the configuration of scanning EBS volumes as a data source.
+                  properties:
+                    reason:
+                      type: string
+                      description: Specifies the reason why scanning EBS volumes (Malware Protection) was not enabled as a data source.
+                    status:
+                      type: string
+                      description: Describes whether scanning EBS volumes is enabled as a data source.
+                      enum:
+                        - ENABLED
+                        - DISABLED
+            serviceRole:
+              type: string
+              description: The GuardDuty Malware Protection service role.
