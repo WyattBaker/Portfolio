@@ -1,6 +1,6 @@
 <a id="backtotop"></a>
 
-<h1>Documentation for AWS CloudWatch</h1>
+<h1>Technical Documentation for AWS CloudWatch</h1>
 
 <hr class="solid">
 
